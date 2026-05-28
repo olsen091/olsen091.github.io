@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 Chicago Marathon — Training Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:    #CC2529;
+    --navy:   #00304E;
+    --gold:   #E8A020;
+    --bg:     #F5F2ED;
+    --card:   #FFFFFF;
+    --border: #E2DDD6;
+    --muted:  #6B7280;
+    --text:   #1A1A1A;
+
+    /* day type colours */
+    --c-aerobic-bg:   #FFFFFF;    --c-aerobic-bd:   #D1D5DB; --c-aerobic-tx:   #374151;
+    --c-long-bg:      #F0FDF4;    --c-long-bd:      #86EFAC; --c-long-tx:      #166534;
+    --c-mp-bg:        #EFF6FF;    --c-mp-bd:        #93C5FD; --c-mp-tx:        #1D4ED8;
+    --c-workout-bg:   #FFFBEB;    --c-workout-bd:   #FCD34D; --c-workout-tx:   #92400E;
+    --c-recovery-bg:  #F0F9FF;    --c-recovery-bd:  #BAE6FD; --c-recovery-tx:  #0369A1;
+    --c-rest-bg:      #F9FAFB;    --c-rest-bd:      #E5E7EB; --c-rest-tx:      #9CA3AF;
+    --c-race-bg:      #F0FDF4;    --c-race-bd:      #16A34A; --c-race-tx:      #14532D;
+    --c-marathon-bg:  #FEFCE8;    --c-marathon-bd:  #E8A020; --c-marathon-tx:  #854D0E;
+    --c-stride-dot:   #F97316;
+    --c-xc-bg:        #FFF7ED;    --c-xc-bd:        #F97316; --c-xc-tx:        #9A3412;
+    --c-tri-bg:       #F5F3FF;    --c-tri-bd:       #8B5CF6; --c-tri-tx:       #4C1D95;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  /* ── HERO ─────────────────────────────────────────── */
+  .hero {
+    background: var(--navy);
+    padding: 44px 48px 38px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 420px 320px at 92% -10%, rgba(204,37,41,.32) 0%, transparent 65%),
+      radial-gradient(ellipse 340px 260px at 5%  110%, rgba(232,160,32,.14) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 1320px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 10px;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 8vw, 96px);
+    line-height: .9; color: #fff; letter-spacing: .025em;
+    margin-bottom: 22px;
+  }
+  .hero-title em { color: var(--red); font-style: normal; }
+
+  .hero-stats { display: flex; gap: 0; flex-wrap: wrap; }
+  .hstat {
+    padding: 0 28px 0 0;
+    margin-right: 28px;
+    border-right: 1px solid rgba(255,255,255,.15);
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .hstat:last-child { border-right: none; }
+  .hstat-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase;
+    color: rgba(255,255,255,.45);
+  }
+  .hstat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px; color: #fff; letter-spacing: .04em; line-height: 1.05;
+  }
+  .hstat-val.gold { color: var(--gold); }
+
+  /* ── PACES BAR ────────────────────────────────────── */
+  .paces-bar { background: var(--red); }
+  .paces-inner {
+    max-width: 1320px; margin: 0 auto;
+    display: flex; overflow-x: auto;
+  }
+  .pace-cell {
+    flex: 1; min-width: 130px;
+    padding: 13px 18px;
+    border-right: 1px solid rgba(255,255,255,.22);
+    display: flex; flex-direction: column; gap: 1px;
+  }
+  .pace-cell:last-child { border-right: none; }
+  .pace-zone {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: .17em; text-transform: uppercase;
+    color: rgba(255,255,255,.6);
+  }
+  .pace-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 21px; color: #fff; letter-spacing: .04em; line-height: 1;
+  }
+
+  /* ── LEGEND ───────────────────────────────────────── */
+  .legend-bar {
+    background: #0a2540;
+    padding: 8px 48px;
+  }
+  .legend-inner {
+    max-width: 1320px; margin: 0 auto;
+    display: flex; gap: 18px; flex-wrap: wrap; align-items: center;
+  }
+  .leg {
+    display: flex; align-items: center; gap: 5px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: .06em;
+    color: rgba(255,255,255,.65);
+  }
+  .leg-swatch {
+    width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0;
+  }
+  .leg-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--c-stride-dot); flex-shrink: 0;
+  }
+
+  /* ── MAIN ─────────────────────────────────────────── */
+  .main { max-width: 1320px; margin: 0 auto; padding: 28px 48px 64px; }
+
+  /* ── TABLE ────────────────────────────────────────── */
+  table {
+    width: 100%; border-collapse: collapse;
+    table-layout: fixed; font-size: 12px;
+  }
+
+  thead th {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500;
+    padding: 7px 8px 9px;
+    border-bottom: 2px solid var(--border);
+    background: var(--bg);
+    text-align: center;
+    position: sticky; top: 0; z-index: 20;
+  }
+  thead th:first-child { text-align: left; }
+
+  /* phase divider row */
+  tr.phase-div td {
+    background: var(--navy);
+    color: rgba(255,255,255,.75);
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px; letter-spacing: .2em; text-transform: uppercase;
+    padding: 5px 10px; font-weight: 500;
+  }
+
+  tr.week-row td {
+    padding: 7px 6px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr.week-row:hover td { background: rgba(0,0,0,.012); }
+
+  /* ── WEEK META ────────────────────────────────────── */
+  .wmeta { min-width: 88px; }
+  .wnum {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px; color: var(--navy); line-height: 1; display: block;
+  }
+  .wdate {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: .06em; color: var(--muted);
+    display: block; margin-top: 1px;
+  }
+  .wbadge {
+    display: inline-block; margin-top: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 8.5px; letter-spacing: .09em; text-transform: uppercase;
+    padding: 2px 5px; border-radius: 3px; font-weight: 600;
+  }
+  .b-peak     { background:#FEE2E2; color:var(--red); }
+  .b-recovery { background:#EFF6FF; color:#1D4ED8; }
+  .b-taper    { background:#F5F3FF; color:#6D28D9; }
+  .b-race     { background:#F0FDF4; color:#15803D; }
+
+  /* ── DAY CARD ─────────────────────────────────────── */
+  .dc {
+    border-radius: 7px;
+    padding: 7px 5px 6px;
+    min-height: 72px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 3px;
+    position: relative;
+    transition: transform .1s, box-shadow .1s;
+  }
+  .dc:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,.09); }
+
+  .dc-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 8.5px; letter-spacing: .05em; opacity: .5;
+  }
+  .dc-name {
+    font-size: 11px; font-weight: 600; text-align: center; line-height: 1.25;
+  }
+  .dc-miles {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: .03em; line-height: 1;
+  }
+  .dc-miles.zero { opacity: .3; font-size: 16px; }
+
+  /* stride dot */
+  .stride-pip {
+    position: absolute; top: 5px; right: 5px;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--c-stride-dot);
+  }
+
+  /* type → colours */
+  .t-aerobic  { background:var(--c-aerobic-bg);  border:1px solid var(--c-aerobic-bd);  color:var(--c-aerobic-tx); }
+  .t-long     { background:var(--c-long-bg);      border:1px solid var(--c-long-bd);      color:var(--c-long-tx); }
+  .t-mp       { background:var(--c-mp-bg);        border:1.5px solid var(--c-mp-bd);      color:var(--c-mp-tx); }
+  .t-workout  { background:var(--c-workout-bg);   border:1px solid var(--c-workout-bd);   color:var(--c-workout-tx); }
+  .t-recovery { background:var(--c-recovery-bg);  border:1px solid var(--c-recovery-bd);  color:var(--c-recovery-tx); }
+  .t-rest     { background:var(--c-rest-bg);      border:1px solid var(--c-rest-bd);      color:var(--c-rest-tx); }
+  .t-race     { background:var(--c-race-bg);      border:2px solid var(--c-race-bd);      color:var(--c-race-tx); }
+  .t-marathon { background:var(--c-marathon-bg);  border:2px solid var(--c-marathon-bd);  color:var(--c-marathon-tx); }
+  .t-xc       { background:var(--c-xc-bg);        border:1.5px solid var(--c-xc-bd);      color:var(--c-xc-tx); }
+  .t-tri      { background:var(--c-tri-bg);        border:2px solid var(--c-tri-bd);       color:var(--c-tri-tx); }
+
+  /* ── TOTAL BADGE ──────────────────────────────────── */
+  .tot-cell { text-align: center; }
+  .tot {
+    display: inline-flex; flex-direction: column; align-items: center;
+    padding: 6px 10px; border-radius: 7px;
+    background: var(--navy); color: #fff; min-width: 48px;
+  }
+  .tot.peak     { background: var(--red); }
+  .tot.taper    { background: #6D28D9; }
+  .tot.recovery { background: #2563EB; }
+  .tot-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px; line-height: 1; letter-spacing: .03em;
+  }
+  .tot-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5px; letter-spacing: .12em; opacity: .65; text-transform: uppercase;
+  }
+
+  /* ── NOTES ────────────────────────────────────────── */
+  .notes {
+    margin-top: 28px;
+    background: var(--navy); border-radius: 10px;
+    padding: 22px 28px; color: rgba(255,255,255,.72);
+    font-size: 12.5px; line-height: 1.75;
+  }
+  .notes strong { color: #fff; }
+  .notes-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 14px 36px; margin-top: 12px;
+  }
+  @media (max-width: 860px) {
+    .hero, .legend-bar, .main { padding-left: 16px; padding-right: 16px; }
+    .paces-inner { padding: 0 16px; }
+    .notes-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">18-Week Training Plan · Chicago, IL · October 11 2026</div>
+    <div class="hero-title">2026&nbsp;<em>Chicago</em><br>Marathon</div>
+    <div class="hero-stats">
+      <div class="hstat"><span class="hstat-lbl">Goal Time</span><span class="hstat-val gold">2:55:00</span></div>
+      <div class="hstat"><span class="hstat-lbl">Marathon Pace</span><span class="hstat-val">6:41 / mi</span></div>
+      <div class="hstat"><span class="hstat-lbl">Personal Best</span><span class="hstat-val">3:00:25</span></div>
+      <div class="hstat"><span class="hstat-lbl">Peak Week</span><span class="hstat-val">71 mi</span></div>
+      <div class="hstat"><span class="hstat-lbl">Age Group</span><span class="hstat-val">46</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PACES -->
+<div class="paces-bar">
+  <div class="paces-inner">
+    <div class="pace-cell"><span class="pace-zone">Marathon Pace</span><span class="pace-val">6:41</span></div>
+    <div class="pace-cell"><span class="pace-zone">Tempo / LT</span><span class="pace-val">6:17–6:29</span></div>
+    <div class="pace-cell"><span class="pace-zone">Aerobic</span><span class="pace-val">7:21–7:49</span></div>
+    <div class="pace-cell"><span class="pace-zone">Long Run</span><span class="pace-val">7:41–8:21</span></div>
+    <div class="pace-cell"><span class="pace-zone">Recovery</span><span class="pace-val">8:21–9:01</span></div>
+    <div class="pace-cell"><span class="pace-zone">VO₂max</span><span class="pace-val">5:53–6:09</span></div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend-bar">
+  <div class="legend-inner">
+    <div class="leg"><div class="leg-swatch" style="background:#F0FDF4;border:1.5px solid #86EFAC;"></div>Long Run</div>
+    <div class="leg"><div class="leg-swatch" style="background:#EFF6FF;border:1.5px solid #93C5FD;"></div>Long + MP Segments</div>
+    <div class="leg"><div class="leg-swatch" style="background:#FFFBEB;border:1px solid #FCD34D;"></div>Workout</div>
+    <div class="leg"><div class="leg-swatch" style="background:#F0F9FF;border:1px solid #BAE6FD;"></div>Recovery</div>
+    <div class="leg"><div class="leg-swatch" style="background:#fff;border:1px solid #D1D5DB;"></div>Aerobic</div>
+    <div class="leg"><div class="leg-swatch" style="background:#F9FAFB;border:1px solid #E5E7EB;"></div>Rest</div>
+    <div class="leg"><div class="leg-swatch" style="background:#F0FDF4;border:2px solid #16A34A;"></div>Race</div>
+    <div class="leg"><div class="leg-swatch" style="background:#F5F3FF;border:2px solid #8B5CF6;"></div>Triathlon</div>
+    <div class="leg"><div class="leg-swatch" style="background:#FFF7ED;border:1.5px solid #F97316;"></div>XC Race</div>
+    <div class="leg"><div class="leg-swatch" style="background:#FEFCE8;border:2px solid #E8A020;"></div>Marathon</div>
+    <div class="leg"><div class="leg-dot"></div>Strides</div>
+  </div>
+</div>
+
+<!-- TABLE -->
+<div class="main">
+<table>
+<thead>
+  <tr>
+    <th style="width:88px;text-align:left;">Week</th>
+    <th>Monday</th>
+    <th>Tuesday</th>
+    <th>Wednesday</th>
+    <th>Thursday</th>
+    <th>Friday</th>
+    <th>Saturday</th>
+    <th>Sunday</th>
+    <th style="width:58px;">Total</th>
+  </tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+
+<div class="notes">
+  <strong>Key Workout Notes</strong>
+  <div class="notes-grid">
+    <div><strong>Strides (●)</strong> — 6–8 × 100 m accelerations tacked onto the end of easy runs. Controlled build to 5-K effort with full recovery. Keeps legs sharp without meaningful fatigue.</div>
+    <div><strong>Wednesday Workouts</strong> — Follow the Mill City Running Fall Marathon training plan for the week's primary quality session.</div>
+    <div><strong>MP Long Runs</strong> (highlighted blue) — Easy-pace miles bookending the marked MP segment. Jun 19: 8@MP · Jul 11: 10@MP · Aug 8 (Sat, Wk 9): 12@MP · Sep 5: 14@MP. Runs at 7:41–8:21 outside the MP window.</div>
+    <div><strong>Taper (3 Weeks)</strong> — Volume drops sharply; intensity stays. One workout + one moderate long run each week through Week 1. The hay is in the barn.</div>
+  </div>
+</div>
+</div>
+
+<script>
+// ─── PLAN ────────────────────────────────────────────────────────────────────
+// Sourced directly from original "Chicago 18-70" spreadsheet
+// Weeks 26→0 counting down to Marathon Sunday Oct 11, 2026
+// Each entry: [weekNum, phase, [workouts Mon-Sun], [miles Mon-Sun], [strides Mon-Sun]]
+// phase strings trigger section dividers and badge styles
+
+const MARATHON = new Date(2026, 9, 11); // Oct 11 2026
+function mondayOf(wk) {
+  const d = new Date(MARATHON);
+  d.setDate(d.getDate() - 6 - wk * 7);  // Monday of week 0 = Oct 5
+  return d;
+}
+function fmt(d) { return d.toLocaleDateString('en-US',{month:'short',day:'numeric'}); }
+
+// Phase labels shown in divider rows
+const PHASES = {
+  26:'Base Building',
+  18:'Build Phase',
+  16:'Sharpening',
+  14:'Race + Endurance',
+  11:'Peak Training',
+  8:'Peak + Taper Bridge',
+  4:'Taper'
+};
+
+const PLAN = [
+  // wk, [workouts], [miles], [strides]
+
+  [17,['Aerobic','Long','Workout','Recovery','Recovery','Long',''],
+      [12,9,10,6,5,15,0],[false,false,false,false,false,false,false]],
+
+  [16,['Aerobic','Aerobic','Workout','Recovery','Long 8@MP','Spectate',''],
+      [13,9,9,5,16,10,0],[false,false,false,false,false,false,false]],
+
+  [15,['Aerobic','Recovery','Aerobic','Recovery','Recovery','Long',''],
+      [14,4,5,5,5,14,0],[false,false,false,false,false,false,false]],
+
+  [14,['Aerobic','Aerobic','Aerobic','Aerobic','Travel','Race','Long'],
+      [5,5,5,5,0,6,18],[false,false,false,false,false,false,false]],
+
+  [13,['Aerobic','Long','Workout','Aerobic','Recovery','Long 10@MP',''],
+      [9,15,6,11,5,18,0],[false,false,false,false,false,false,false]],
+
+  [12,['Long','Aerobic','Workout','Recovery','Recovery','Rest','Raspberry'],
+      [12,9,9,5,5,0,15],[false,false,false,false,false,false,true]],
+
+  [11,['Aerobic','Long','Workout','Recovery','Aerobic','Long','rest'],
+      [10,15,8,10,7,21,0],[false,false,false,false,false,false,false]],
+
+  [10,['Long','Recovery','Workout','Recovery','Recovery','Long','rest'],
+      [15,7,12,7,7,21,0],[false,false,false,false,false,false,false]],
+
+  [9,['Long','Recovery','Workout','Recovery','Recovery','Long 12@MP','rest'],
+     [15,7,10,7,7,19,0],[false,false,false,false,false,false,false]],
+
+  [8,['Aerobic','Recovery','Workout','Aerobic','Recovery','Waupaca Triathlon','Rest'],
+     [11,7,9,9,7,15,0],[false,false,false,false,false,false,false]],
+
+  [7,['Long','Recovery','Workout','Recovery','Recovery','2 Mile XC + Long','Rest'],
+     [15,7,12,7,7,22,0],[false,false,false,false,false,false,true]],
+
+  [6,['Long','Recovery','Workout','Recovery','Twilight?','Long','Rest'],
+     [11,7,11,5,12,17,0],[false,false,false,false,true,false,false]],
+
+  [5,['Long','Aerobic','Workout','Recovery','Recovery','Long 14@MP','Rest'],
+     [15,10,12,7,6,20,0],[false,false,false,false,false,false,false]],
+
+  [4,['Long','Recovery','Workout','Recovery','Recovery','Shakeout','CoL'],
+     [10,9,10,5,7,5,17],[false,false,false,false,false,false,true]],
+
+  [3,['Long','Recovery','Workout','Aerobic','Recovery','Long','Rest'],
+     [15,7,12,9,7,21,0],[false,false,false,false,false,false,true]],
+
+  [2,['Aerobic','Aerobic','Workout','Recovery','Recovery','Long','Rest'],
+     [10,8,11,7,5,17,0],[false,false,false,false,false,false,false]],
+
+  [1,['Recovery','Recovery','Workout','Travelers 5k','Recovery','Long',''],
+     [7,5,9,7,4,13,0],[false,false,false,false,false,false,false]],
+
+  [0,['Recovery','Recovery','Workout','Recovery','Recovery 5','Rest','Marathon'],
+     [6,4,6,5,2,0,26.2],[false,false,false,false,false,false,false]],
+];
+
+// ─── TYPE CLASSIFIER ─────────────────────────────────────────────────────────
+function classify(label) {
+  const l = label.toLowerCase();
+  if (l === 'marathon') return 'marathon';
+  if (l.includes('triathlon')) return 'tri';
+  if (l.includes('race') || l.includes('trot') || l.includes('5k') || l.includes('col') || l === 'raspberry') return 'race';
+  if (l.includes('@mp')) return 'mp';
+  if (l.includes('xc')) return 'xc';
+  if (l.includes('long') || l.includes('endurance')) return 'long';
+  if (l.includes('workout') || l.includes('dress rehearsal')) return 'workout';
+  if (l === 'recovery' || l.includes('recovery') || l === 'spectate') return 'recovery';
+  if (l === 'rest' || l === '') return 'rest';
+  return 'aerobic';
+}
+
+// ─── TOTAL BADGE CLASS ────────────────────────────────────────────────────────
+function totClass(wk) {
+  if ([11,10,9,7,5,3].includes(wk)) return 'tot peak';
+  if ([4,2,1,0].includes(wk)) return 'tot taper';
+  if ([19,15].includes(wk)) return 'tot recovery';
+  return 'tot';
+}
+
+// ─── WEEK BADGE ───────────────────────────────────────────────────────────────
+function weekBadge(wk) {
+  if ([11,10,9,7,5,3].includes(wk)) return '<span class="wbadge b-peak">Peak</span>';
+  if ([19,15].includes(wk)) return '<span class="wbadge b-recovery">Recovery</span>';
+  if ([4,3,2,1,0].includes(wk)) return '<span class="wbadge b-taper">Taper</span>';
+  if ([18,14].includes(wk)) return '<span class="wbadge b-race">Race Week</span>';
+  return '';
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+const tbody = document.getElementById('tbody');
+let lastPhaseDiv = -1;
+
+PLAN.forEach(([wk, workouts, miles, strides]) => {
+  const monday = mondayOf(wk);
+
+  // Phase divider
+  if (PHASES[wk] !== undefined && wk !== lastPhaseDiv) {
+    const div = document.createElement('tr');
+    div.className = 'phase-div';
+    div.innerHTML = `<td colspan="9">— ${PHASES[wk]}</td>`;
+    tbody.appendChild(div);
+    lastPhaseDiv = wk;
+  }
+
+  const tr = document.createElement('tr');
+  tr.className = 'week-row';
+
+  // Week meta
+  let meta = `<td class="wmeta">
+    <span class="wnum">${wk === 0 ? '★' : 'W' + wk}</span>
+    <span class="wdate">${fmt(monday)}</span>
+    ${weekBadge(wk)}
+  </td>`;
+
+  // Day cells
+  let days = '';
+  let total = 0;
+  const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+  for (let d = 0; d < 7; d++) {
+    const dayD = new Date(monday);
+    dayD.setDate(monday.getDate() + d);
+    const dateStr = fmt(dayD);
+    const mi = miles[d];
+    const label = workouts[d];
+    const type = classify(label);
+    const STRIDE_DATES = new Set([
+      'Jun 16','Jun 24','Jul 14','Jul 24','Aug 7','Aug 14',
+      'Aug 27','Sep 3','Sep 10','Sep 22','Sep 28','Oct 8'
+    ]);
+    const stride = STRIDE_DATES.has(dateStr);
+    total += mi;
+
+    // Format label — break @MP onto second line
+    let display = label;
+    if (label.includes('@MP')) {
+      const idx = label.indexOf('@');
+      display = label.slice(0,idx).trim() + '<br><span style="font-size:10px;letter-spacing:.02em;">' + label.slice(idx) + '</span>';
+    }
+
+    const miStr = mi === 0 ? '—' : (mi % 1 !== 0 ? mi.toFixed(1) : mi.toString());
+    const miClass = mi === 0 ? 'dc-miles zero' : 'dc-miles';
+
+    days += `<td>
+      <div class="dc t-${type}">
+        ${stride ? '<div class="stride-pip"></div>' : ''}
+        <span class="dc-date">${dateStr}</span>
+        <span class="dc-name">${display}</span>
+        <span class="${miClass}">${miStr}</span>
+      </div>
+    </td>`;
+  }
+
+  // Total
+  const totStr = total % 1 !== 0 ? total.toFixed(1) : total.toString();
+  const tot = `<td class="tot-cell">
+    <div class="${totClass(wk)}">
+      <span class="tot-num">${totStr}</span>
+      <span class="tot-lbl">mi</span>
+    </div>
+  </td>`;
+
+  tr.innerHTML = meta + days + tot;
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>
